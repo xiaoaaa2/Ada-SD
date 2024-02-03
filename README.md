@@ -1,18 +1,17 @@
 # AISHELL-4
 
-This project is associated with the recently-released AIHSHELL-4 dataset for speech enhancement, separation, recognition and speaker diarization in conference scenario. The project, served as baseline, is divided into five parts, named ***data_preparation***, ***front_end***, ***asr*** and ***sd***. The Speaker Independent (SI) task only evaluates the ability of front end (FE) and ASR models, while the Speaker Dependent (SD) task evaluates the joint ability of speaker diarization, front end and ASR models. The goal of this project is to simplify the training and evaluation procedure and make it easy and flexible for researchers to carry out experiments and verify neural network based methods.
+This project is associated with the recently-released AIHSHELL-4 dataset for speaker diarization in conference scenario. The project is divided into five parts, named ***training MSR network***, ***finetuning speaker embedding extractor***, and ***sd***. The task evaluates the ability of speaker diarization. The goal of this project is to The goal of this paper is to optimize speaker embeddings for speaker diarization by introducing the MSR network and employing a data augmentation strategy and a new loss function to fine-tune the pre-trained speaker embedding extractor.
 
 ## Setup
 
 ```shell
-git clone https://github.com/felixfuyihui/AISHELL-4.git
+git clone https://github.com/xiaoaaa2/Ada-SD.git
 pip install -r requirements.txt
 ```
 ## Introduction
 
-* [Data Preparation](data_preparation): Prepare the training and evaluation data.
-* [Front End](front_end): Train and evaluate the front end model. 
-* [ASR](asr): Train and evaluate the asr model. 
+* [Train MSR](model_preparation): Prepare the training and evaluation data.
+* [Finetune extractor](model_preparation): Train and evaluate the front end model. 
 * [Speaker Diarization](sd): Generate the speaker diarization results. 
 * [Evaluation](eval): Evaluate the results of models above and generate the CERs for Speaker Independent and Speaker Dependent tasks respectively.
 
@@ -42,9 +41,7 @@ The paper is available at https://arxiv.org/abs/2104.03603
 
 Dataset is available at http://www.openslr.org/111/ and http://www.aishelltech.com/aishell_4
     
-## Contributors
 
-[<img width="300" height="100" src="https://github.com/felixfuyihui/AISHELL-4/blob/master/fig_aslp.jpg"/>](http://www.nwpu-aslp.org/)[<img width="300" height="100" src="https://github.com/felixfuyihui/AISHELL-4/blob/master/fig_aishell.jpg"/>](http://www.aishelltech.com/sy)
 ## Code license 
 
 [Apache 2.0](./LICENSE)
