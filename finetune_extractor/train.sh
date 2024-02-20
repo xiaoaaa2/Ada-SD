@@ -7,7 +7,7 @@ mkdir -p saved_models
 dataset='cn12'
 tag='_exp1'
 
-python train.py \
+python finetune.py \
     --batch_size 32 \
     --num_classes_in_batch 4 \
     --lr 1e-5 \
