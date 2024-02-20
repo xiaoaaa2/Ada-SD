@@ -1,4 +1,3 @@
-[简体中文](./README.md) | English
 
 # Mixed Segment Recognition Network implemented in Pytorch
 
