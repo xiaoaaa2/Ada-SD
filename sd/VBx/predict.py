@@ -23,8 +23,8 @@ torch.backends.cudnn.enabled = True
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
-from macls.predict import MAClsPredictor
-from macls.utils.utils import add_arguments, print_arguments
+from train_msr.macls.predict import MAClsPredictor
+from train_msr.macls.utils.utils import add_arguments, print_arguments
 
 class Timer(object):
     def __init__(self, name=None):
@@ -99,7 +99,7 @@ if __name__ == '__main__':
                         help='backend that is used for x-vector extraction')
 
     args = parser.parse_args()
-
+    # msr network
     predictor = MAClsPredictor(configs='/home/configs/resnet_se.yml',
                            model_path='/home/models/ResNetSE_Fbank/best_model',
                            use_gpu=True)
