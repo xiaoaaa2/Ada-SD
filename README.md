@@ -1,19 +1,19 @@
 # AISHELL-4
 
-This project is associated with the recently-released AIHSHELL-4 dataset for speaker diarization in conference scenario. The project is divided into five parts, named ***training MSR network***, ***finetuning speaker embedding extractor***, and ***sd***. The task evaluates the ability of speaker diarization. The goal of this project is to The goal of this paper is to optimize speaker embeddings for speaker diarization by introducing the MSR network and employing a data augmentation strategy and a new loss function to fine-tune the pre-trained speaker embedding extractor.
+This project is associated with the recently-released AIHSHELL-4 dataset for speaker diarization in conference scenario. The project is divided into five parts, named ***training the MSR network***, ***fine-tuning speaker embedding extractor***, and ***speaker diarization***. The task evaluates the ability of speaker diarization. The goal of this project is to optimize speaker embeddings for speaker diarization by introducing the Mixed Segment Recognition network and employing a data augmentation strategy and a new loss function to fine-tune the pre-trained speaker embedding extractor.
 
 ## Setup
 
 ```shell
-git clone https://github.com/xiaoaaa2/Ada-SD.git
+git clone https://github.com/xiaoaaa2/Adaptiva speaker diarization.git
 pip install -r requirements.txt
 ```
 ## Introduction
 
 * [Train MSR](model_preparation): Prepare the training and evaluation data.
-* [Finetune extractor](model_preparation): Train and evaluate the front end model. 
+* [Finetune Extractor](model_preparation): Train and evaluate the front end model. 
 * [Speaker Diarization](sd): Generate the speaker diarization results. 
-* [Evaluation](eval): Evaluate the results of models above and generate the CERs for Speaker Independent and Speaker Dependent tasks respectively.
+* [Evaluation](eval): Evaluate the results of models above and generate the DERs for Speaker Diarization task.
 
 ## General steps
 1. Generate training data for fe and asr model and evaluation data for Speaker Independent task.
