@@ -42,7 +42,7 @@ for filename1, filename2 in zip(filenames1, filenames2):   # Generate mixed spee
     audio_segment2.crop(duration=m2_duration, mode='train')
   
     # Set the duration of fade-in and fade-out
-    fade_duration = 1000  # 1秒钟
+    fade_duration = 1000  # 1 second
     # Add fade-in effect
     audio_fadein = audio_segment2.fade_in(fade_duration)
     # Add fade-out effect
