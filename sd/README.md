@@ -2,9 +2,9 @@
 
 
 ## Usage
-In speaker diarization process, we will only use the first channel as the SAD model and the Speaker-Embedding-Extrator do not support the multi-channel wav.
+In speaker diarization process, we will only use the first channel as the SAD model and the Speaker-Embedding-Extrator do not support the multi-channel wav. We changed the ./VBx/predict.py to use the msr network and fine-tuned speaker embedding extractor.
 
-> You can find all the process in `sd/run.sh` and the comments in it.
+> You can find all the process in `sd/run.sh` and the comments in it. You can experiment with any segment length and segment jump within the specified range, simply by modifying the parameters in the file.
 
 
 
