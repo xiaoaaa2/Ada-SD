@@ -1,4 +1,4 @@
-This is the initial repo for Finetune Speaker Embedding Extractor for Speaker Diarisation.
+This is the initial repo for finetuning Speaker Embedding Extractor for Speaker Diarization.
 
 To finetune the model, run ```bash train.sh```.
 
