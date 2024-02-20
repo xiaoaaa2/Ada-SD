@@ -15,8 +15,8 @@ pip install -r requirements.txt
 * [Speaker Diarization](sd): Generate and evaluate the speaker diarization results. 
 
 ## General steps
-1. Generate training data for fe and asr model and evaluation data for Speaker Independent task.
-2. Do speaker diarization to generate rttm which includes vad and speaker diarization information.
+1. Generate training data for MSR model and train the model.
+2. Finetune the speaker embedding extractor by using data augmentation strategy and introducing a new loss function.
 3. Generate evaluation data for Speaker Dependent task with the results from step 2.
 4. Train FE and ASR model respectively.
 5. Generate the FE results of evaluation data for Speaker Independent and Speaker Dependent tasks respectively.
