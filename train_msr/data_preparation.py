@@ -10,9 +10,9 @@ write_clean_wav_path = '/home/dataset/audio/clean/'
 filenames=os.listdir(audio_path)[:200]
 print(filenames)
 n=0
-for filename in filenames:   # 产生纯净语音段数据
+for filename in filenames:   # Generate clean speech segment data
     path = os.path.join(audio_path, filename)
-    filenames=os.listdir(path)[:30]
+    filenames=os.listdir(path)[:35]
     for filename2 in filenames:  
         n+=1
         path2 = os.path.join(path, filename2)
@@ -23,13 +23,13 @@ for filename in filenames:   # 产生纯净语音段数据
         sf.write(write_wav_path,audio_segment.samples,16000,format='WAV',subtype='FLOAT')
 
 
-audio1_path = '/home/audio_clean/clean1'   # 7000条纯净语音段存放地址
-audio2_path = '/home/audio_clean/clean2'   # 7000条不同纯净语音段存放地址
+audio1_path = '/home/audio_clean/clean1'   # The location to store 6000 clean speech segments
+audio2_path = '/home/audio_clean/clean2'   # The location to store different 6000 clean speech segments
 write_mixed_wav_path = '/home/zidonghua/zcy/AudioClassification-Pytorch/dataset/audio/mix/'
 filenames1=os.listdir(audio_path)[0: 200]
 filenames2=os.listdir(audio_path)[200: 400]
 n=0
-for filename1, filename2 in zip(filenames1, filenames2):   # 产生混合语音段
+for filename1, filename2 in zip(filenames1, filenames2):   # Generate mixed speech segment data
     n+=1 
     path1 = os.path.join(audio_path, filename1)
     path2 = os.path.join(audio_path, filename2)
@@ -41,14 +41,14 @@ for filename1, filename2 in zip(filenames1, filenames2):   # 产生混合语音�
     audio_segment2 = AudioSegment.from_file(path2)
     audio_segment2.crop(duration=m2_duration, mode='train')
   
-    # 设置淡入淡出时长
+    # Set the duration of fade-in and fade-out
     fade_duration = 1000  # 1秒钟
-    # 添加淡入效果
+    # Add fade-in effect
     audio_fadein = audio_segment2.fade_in(fade_duration)
-    # 添加淡出效果
+    # Add fade-out effect
     audio_fadeout = audio_segment1.fade_out(fade_duration)
   
-    # 拼接两段语音
+    # Concatenate two audio segments
     audio = AudioSegment.concatenate(audio_fadein, audio_fadeout)
     write_wav_path = os.path.join(write_mixed_wav_path,f'{n}.wav')
     sf.write(write_wav_path,audio.samples,16000,format='WAV',subtype='FLOAT')
