@@ -1,7 +1,7 @@
 import os
 
 
-# 生成数据列表
+# Generate a list of data
 def get_data_list(audio_path, list_path):
     sound_sum = 0
     audios = os.listdir(audio_path)
