@@ -23,6 +23,11 @@ python create_data.py
 python train.py
 ```
 
+## Evaluating Model
+
+```shell
+python eval.py
+```
 
 # Reference
 
