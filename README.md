@@ -17,13 +17,8 @@ pip install -r requirements.txt
 ## General steps
 1. Generate training data for MSR model and train the model.
 2. Finetune the speaker embedding extractor by using data augmentation strategy and introducing a new loss function.
-3. Generate evaluation data for Speaker Dependent task with the results from step 2.
-4. Train FE and ASR model respectively.
-5. Generate the FE results of evaluation data for Speaker Independent and Speaker Dependent tasks respectively.
-6. Generate the ASR results of evaluation data for Speaker Independent and Speaker Dependent tasks respectively with the results from step 2 and 3 for No FE results.
-7. Generate the ASR results of evaluation data for Speaker Independent and Speaker Dependent tasks respectively with the results from step 5 for FE results.
-8. Generate CER results for Speaker Independent and Speaker Dependent tasks of (No) FE with the results from step 6 and 7 respectively.
-
+3. Intruduce the MSR network to the Speaker Diarization pipeline and replace the original speaker embedding extractor with the fine-tuned model.
+4. Evaluate the Speaker Diarization project.
 
 
 
