@@ -13,6 +13,8 @@ dia_rttm_dir=$dia_dir/rttm
 dia_emb_dir=$dia_dir/embedding
 dia_split_rttm_dir=$dia_dir/splited_rttm
 dia_stable_rttm_dir=$dia_dir/stable_rttm
+segment_length=288  # segment_length
+segment_jump=48     # segment_jump
 
 mkdir -p $work_dir || exit 1;
 mkdir -p $sad_dir || exit 1;
@@ -69,7 +71,8 @@ if [ $stage -le 3 ]; then
     # If you want to use the gpu to extract the speaker embedding,
     # please check the `scripts/extract_embeddings_gpu.sh`
     # Note that the scripts will sub all the job, so please keep the `exit 1`
-    scripts/extract_embeddings.sh $dia_dir $work_dir/one_channel_wav
+    scripts/extract_embeddings.sh $dia_dir $work_dir/one_channel_wav --segment_length segment_length
+                                                                    --segment_jump segment_jump
 fi
 
 if [ $stage -le 4 ]; then
