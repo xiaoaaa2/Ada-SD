@@ -23,8 +23,8 @@ for filename in filenames:   # Generate clean speech segment data
         sf.write(write_wav_path,audio_segment.samples,16000,format='WAV',subtype='FLOAT')
 
 
-audio1_path = '/home/audio_clean/clean1'   # The location to store 6000 clean speech segments
-audio2_path = '/home/audio_clean/clean2'   # The location to store different 6000 clean speech segments
+audio1_path = '/home/audio_clean/clean1'   # The path to store 6000 clean speech segments
+audio2_path = '/home/audio_clean/clean2'   # The path to store different 6000 clean speech segments
 write_mixed_wav_path = '/home/zidonghua/zcy/AudioClassification-Pytorch/dataset/audio/mix/'
 filenames1=os.listdir(audio_path)[0: 200]
 filenames2=os.listdir(audio_path)[200: 400]
