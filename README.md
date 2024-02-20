@@ -5,7 +5,7 @@ This project is associated with the recently-released AIHSHELL-4 dataset for spe
 ## Setup
 
 ```shell
-git clone https://github.com/xiaoaaa2/Adaptiva speaker diarization.git
+git clone https://github.com/xiaoaaa2/Ada-sd.git
 pip install -r requirements.txt
 ```
 ## Introduction
