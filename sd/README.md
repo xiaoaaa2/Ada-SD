@@ -1,4 +1,4 @@
-# AISHELL4 Speaker Diarization
+# Improved AISHELL4 Speaker Diarization
 
 
 ## Usage
