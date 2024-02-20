@@ -1,6 +1,6 @@
 This is the initial repo for Finetune Speaker Embedding Extractor for Speaker Diarisation.
 
-To train the model, run ```bash train.sh```.
+To finetune the model, run ```bash train.sh```.
 
 Dataset used for training:
 - CNCeleb 1
