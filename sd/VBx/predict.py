@@ -17,12 +17,14 @@ import torch.backends
 
 import features
 from models.resnet import *
-
-torch.backends.cudnn.enabled = False
+from models.resnet_se import ResNetSE
+from models.tdnn import TDNN
+torch.backends.cudnn.enabled = True
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
-
+from macls.predict import MAClsPredictor
+from macls.utils.utils import add_arguments, print_arguments
 
 class Timer(object):
     def __init__(self, name=None):
@@ -41,7 +43,7 @@ class Timer(object):
 
 
 def initialize_gpus(args):
-    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
+    os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 
 
 def load_utt(ark, utt, position):
@@ -80,14 +82,14 @@ def get_embedding(fea, model, label_name=None, input_name=None, backend='pytorch
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gpus', type=str, default='', help='use gpus (passed to CUDA_VISIBLE_DEVICES)')
+    parser.add_argument('--gpus', type=str, default='1', help='use gpus (passed to CUDA_VISIBLE_DEVICES)')
     parser.add_argument('--model', required=False, type=str, default=None, help='name of the model')
     parser.add_argument('--weights', required=True, type=str, default=None, help='path to pretrained model weights')
     parser.add_argument('--model-file', required=False, type=str, default=None, help='path to model file')
     parser.add_argument('--ndim', required=False, type=int, default=64, help='dimensionality of features')
     parser.add_argument('--embed-dim', required=False, type=int, default=256, help='dimensionality of the emb')
-    parser.add_argument('--seg-len', required=False, type=int, default=144, help='segment length')
-    parser.add_argument('--seg-jump', required=False, type=int, default=24, help='segment jump')
+    parser.add_argument('--seg-len', required=False, type=int, default=288, help='segment length')
+    parser.add_argument('--seg-jump', required=False, type=int, default=48, help='segment jump')
     parser.add_argument('--in-file-list', required=True, type=str, help='input list of files')
     parser.add_argument('--in-lab-dir', required=True, type=str, help='input directory with VAD labels')
     parser.add_argument('--in-wav-dir', required=True, type=str, help='input directory with wavs')
@@ -97,6 +99,10 @@ if __name__ == '__main__':
                         help='backend that is used for x-vector extraction')
 
     args = parser.parse_args()
+
+    predictor = MAClsPredictor(configs='/home/configs/resnet_se.yml',
+                           model_path='/home/models/ResNetSE_Fbank/best_model',
+                           use_gpu=True)
 
     print(args.gpus)
     seg_len = args.seg_len
@@ -113,6 +119,7 @@ if __name__ == '__main__':
         device = torch.device(device='cpu')
 
     model, label_name, input_name = '', None, None
+    print(torch.cuda.is_available())
 
     if args.backend == 'pytorch':
         if args.model_file is not None:
@@ -122,6 +129,7 @@ if __name__ == '__main__':
             model = eval(args.model)(feat_dim=args.ndim, embed_dim=args.embed_dim)
             model = model.to(device)
             checkpoint = torch.load(args.weights, map_location=device)
+            # model.load_state_dict(checkpoint, strict=False)
             model.load_state_dict(checkpoint['state_dict'], strict=False)
             model.eval()
     elif args.backend == 'onnx':
@@ -135,7 +143,16 @@ if __name__ == '__main__':
 
     file_names = np.atleast_1d(np.loadtxt(args.in_file_list, dtype=object))
     print(f"filenames: {file_names}")
-
+    
+    # torch.cuda.empty_cache()
+    # model2 = eval(args.model)(feat_dim=args.ndim, embed_dim=args.embed_dim)
+    # model2 = model2.to(device)
+    # checkpoint2 = torch.load('/home/zidonghua/zcy/scale/saved_models/model_3s_200.pt', map_location=device)
+    # model2.load_state_dict(checkpoint2, strict=False)
+    # # model2.load_state_dict(checkpoint2['state_dict'], strict=False)
+    # model2.eval()
+    
+    
     with torch.no_grad():
         with open(args.out_seg_fn, 'w') as seg_file:
             with open(args.out_ark_fn, 'wb') as ark_file:
@@ -162,13 +179,15 @@ if __name__ == '__main__':
                         LC = 150
                         RC = 149
 
-                        np.random.seed(3)  # for reproducibility
+                        np.random.seed(42)  # for reproducibility
                         signal = features.add_dither((signal*2**15).astype(int))
 
                         print(f"Finished the feature extracting {signal.shape}")
-
+                        
+                        
                         for segnum in tqdm.tqdm(range(len(labs))):
                             seg = signal[labs[segnum, 0]:labs[segnum, 1]]
+                            seg2 = signal[labs[segnum, 0]:labs[segnum, 1]]
                             if seg.shape[0] > 0.01*samplerate: # process segment only if longer than 0.01s
                                 # Mirror noverlap//2 initial and final samples
                                 seg = np.r_[seg[noverlap // 2 - 1::-1],
@@ -178,21 +197,65 @@ if __name__ == '__main__':
 
                                 slen = len(fea)
                                 start = -seg_jump
-
-                                for start in range(0, slen - seg_len, seg_jump):
+                                min_seg_len = 144
+                                class_labels = [0, 1]
+                                for start in range(0, slen - seg_len, seg_jump):                                  
+                                    data1 = seg2[start*160:start*160 + seg_len*160]
                                     data = fea[start:start + seg_len]
-                                    xvector = get_embedding(
-                                        data, model, label_name=label_name, input_name=input_name, backend=args.backend)
+                                    # xvector = get_embedding(
+                                    #         data, model, label_name=label_name, input_name=input_name, backend=args.backend)
+                                    
+                                    if_clean, score = predictor.predict(data1)
+                                    if if_clean:
+                                        print("is_clean:",if_clean,"score",score,"seg_len",seg_len,"seg_jump",seg_jump,"start",start)
+                                        xvector = get_embedding(
+                                            data, model, label_name=label_name, input_name=input_name, backend=args.backend)
 
-                                    key = f'{fn}_{segnum:04}-{start:08}-{(start + seg_len):08}'
-                                    if np.isnan(xvector).any():
-                                        logger.warning(f'NaN found, not processing: {key}{os.linesep}')
+                                        key = f'{fn}_{segnum:04}-{start:08}-{(start + seg_len):08}'
+                                        if np.isnan(xvector).any():
+                                            logger.warning(f'NaN found, not processing: {key}{os.linesep}')
+                                        else:
+                                            seg_file.write(f'{key} {fn} '
+                                                        f'{round(labs[segnum, 0] / float(samplerate) + start / 100.0, 3)} '
+                                                        f'{round(labs[segnum, 0] / float(samplerate) + start / 100.0 + seg_len / 100.0, 3)}'
+                                                        f'{os.linesep}')
+                                            kaldi_io.write_vec_flt(ark_file, xvector, key=key)
                                     else:
-                                        seg_file.write(f'{key} {fn} '
-                                                       f'{round(labs[segnum, 0] / float(samplerate) + start / 100.0, 3)} '
-                                                       f'{round(labs[segnum, 0] / float(samplerate) + start / 100.0 + seg_len / 100.0, 3)}'
-                                                       f'{os.linesep}')
-                                        kaldi_io.write_vec_flt(ark_file, xvector, key=key)
+                                        sub_start = start
+                                        sub_seg_len = seg_len//2
+                                        sub_seg_jump = seg_jump//2 
+                                        # sub_seg_len = 144
+                                        # sub_seg_jump = 24      
+                                        # sub_seg_len = round((1-score)*seg_len)                                 
+                                        while sub_start + sub_seg_len <= start + seg_len:
+                                            sub_data1 = seg2[sub_start*160:sub_start*160 + sub_seg_len*160]
+                                            sub_data = fea[sub_start:sub_start + sub_seg_len]
+                                            # sub_data = np.tile(sub_data, (2, 1))
+
+                                            # print(sub_data.shape)
+                                            if_clean, score = predictor.predict(sub_data1)
+                                            if sub_seg_len <= min_seg_len:
+                                                sub_seg_len = 144
+                                                sub_seg_jump = 24
+                                            if if_clean or sub_seg_len <= min_seg_len:
+                                                print("if_clean",if_clean,"score",score,"sub_start",sub_start,"sub_seg_len",sub_seg_len,"sub_seg_jump",sub_seg_jump)
+                                                xvector = get_embedding(
+                                                    sub_data, model, label_name=label_name, input_name=input_name, backend=args.backend)
+                                        
+                                                key = f'{fn}_{segnum:04}-{sub_start:08}-{(sub_start + sub_seg_len):08}'
+                                                if np.isnan(xvector).any():
+                                                    logger.warning(f'NaN found, not processing: {key}{os.linesep}')
+                                                else:
+                                                    seg_file.write(f'{key} {fn} '
+                                                                f'{round(labs[segnum, 0] / float(samplerate) + sub_start / 100.0, 3)} '
+                                                                f'{round(labs[segnum, 0] / float(samplerate) + sub_start / 100.0 + sub_seg_len / 100.0, 3)}'
+                                                                f'{os.linesep}')
+                                                    kaldi_io.write_vec_flt(ark_file, xvector, key=key)
+                                                sub_start += sub_seg_jump
+                                            else:
+                                                sub_seg_len = sub_seg_len//2
+                                                sub_seg_jump = sub_seg_jump//2   
+                                                
 
                                 if slen - start - seg_jump >= 10:
                                     data = fea[start + seg_jump:slen]
