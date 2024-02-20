@@ -10,7 +10,6 @@ tag='_exp1'
 python train.py \
     --batch_size 32 \
     --num_classes_in_batch 4 \
-    --model_type saved_models/wav2vec_small.pt \
     --lr 1e-5 \
     --lr_scheduler 1 \
     --pct_warmup_steps 0.1 \
