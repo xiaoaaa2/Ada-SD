@@ -20,7 +20,7 @@ pip install -r requirements.txt
 2. Finetune the speaker embedding extractor by using data augmentation strategy and introducing a new loss function.
 3. Intruduce the MSR network to the Speaker Diarization pipeline and replace the original speaker embedding extractor with the fine-tuned model.
 4. Evaluate the Speaker Diarization project.
-5. 
+
 ## Citation
 If you use this challenge dataset and baseline system in a publication, please cite the following paper:
     @article{fu2021aishell,
