@@ -1,12 +1,11 @@
 [简体中文](./README.md) | English
 
-# Sound classification system implemented in Pytorch
+# Mixed Segment Recognition Network implemented in Pytorch
 
 ![python version](https://img.shields.io/badge/python-3.8+-orange.svg)
 ![GitHub forks](https://img.shields.io/github/forks/yeyupiaoling/AudioClassification-Pytorch)
 ![GitHub Repo stars](https://img.shields.io/github/stars/yeyupiaoling/AudioClassification-Pytorch)
 ![GitHub](https://img.shields.io/github/license/yeyupiaoling/AudioClassification-Pytorch)
-![支持系统](https://img.shields.io/badge/支持系统-Win/Linux/MAC-9cf)
 
 **Disclaimer, this document was obtained through machine translation, please check the original document [here](./README.md).**
 
@@ -23,35 +22,6 @@ This project is a sound classification project based on Pytorch, aiming to reali
  - Pytorch 1.13.1
  - Windows 10 or Ubuntu 18.04
 
-# Project Features
-
-1. Supporting models: EcapaTdnn、PANNS、TDNN、Res2Net、ResNetSE、CAMPPlus、ERes2Net
-2. Supporting pooling: AttentiveStatsPool(ASP)、SelfAttentivePooling(SAP)、TemporalStatisticsPooling(TSP)、TemporalAveragePooling(TAP)
-3. Support preprocessing methods: MelSpectrogram、Spectrogram、MFCC、Fbank
-
-**Model Paper：**
-
-- EcapaTdnn：[ECAPA-TDNN: Emphasized Channel Attention, Propagation and Aggregation in TDNN Based Speaker Verification](https://arxiv.org/abs/2005.07143v3)
-- PANNS：[PANNs: Large-Scale Pretrained Audio Neural Networks for Audio Pattern Recognition](https://arxiv.org/abs/1912.10211v5)
-- TDNN：[Prediction of speech intelligibility with DNN-based performance measures](https://arxiv.org/abs/2203.09148)
-- Res2Net：[Res2Net: A New Multi-scale Backbone Architecture](https://arxiv.org/abs/1904.01169)
-- ResNetSE：[Squeeze-and-Excitation Networks](https://arxiv.org/abs/1709.01507)
-- CAMPPlus：[CAM++: A Fast and Efficient Network for Speaker Verification Using Context-Aware Masking](https://arxiv.org/abs/2303.00332v3)
-- ERes2Net：[An Enhanced Res2Net with Local and Global Feature Fusion for Speaker Verification](https://arxiv.org/abs/2305.12838v1)
-
-# Model Test
-
-|    Model     | Params(M) | Preprocessing method |        Dataset        | Number Class | Accuracy |
-|:------------:|:---------:|:--------------------:|:---------------------:|:------------:|:--------:|
-|   ResNetSE   |    7.8    |        Flank         |     UrbanSound8K      |      10      | 0.98863  |
-|   CAMPPlus   |    7.1    |        Flank         |     UrbanSound8K      |      10      | 0.97727  |
-|   ERes2Net   |    6.6    |        Flank         |     UrbanSound8K      |      10      | 0.96590  |
-| PANNS（CNN10） |    5.2    |        Flank         |     UrbanSound8K      |      10      | 0.96590  |
-|   Res2Net    |    5.0    |        Flank         |     UrbanSound8K      |      10      | 0.94318  |
-|     TDNN     |    2.6    |        Flank         |     UrbanSound8K      |      10      | 0.92045  |
-|  EcapaTdnn   |    6.1    |        Flank         |     UrbanSound8K      |      10      | 0.91876  |
-|   CAMPPlus   |    6.1    |        Flank         | CN-Celeb and VoxCeleb |  2(CN, EN)   | 0.99320  | 
-|   ResNetSE   |    9.8    |        Flank         | CN-Celeb and VoxCeleb |  2(CN, EN)   | 0.99056  | 
 
 ## Installation Environment
 
@@ -69,8 +39,6 @@ python -m pip install macls -U -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 **Source installation is recommended**, which ensures that the latest code is used.
 ```shell
-git clone https://github.com/yeyupiaoling/AudioClassification_Pytorch.git
-cd AudioClassification_Pytorch/
 python setup.py install
 ```
 
@@ -99,9 +67,9 @@ By default, the MelSpectrogram preprocessing method is used in the configuration
 
 ```yaml
 preprocess_conf:
-  # 音频预处理方法，支持：MelSpectrogram、Spectrogram、MFCC、Fbank
+  # preprocessing methods：MelSpectrogram、Spectrogram、MFCC、Fbank
   feature_method: 'MelSpectrogram'
-  # 设置API参数，更参数查看对应API，不清楚的可以直接删除该部分，直接使用默认值
+  
   method_args:
     sample_rate: 16000
     n_fft: 1024
