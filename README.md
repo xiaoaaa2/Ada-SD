@@ -11,8 +11,8 @@ pip install -r requirements.txt
 ```
 ## Introduction
 
-* [Train MSR](model_preparation): Prepare the training and evaluation data.
-* [Finetune Extractor](model_preparation): Train and evaluate the front end model. 
+* [Train MSR](train_msr): Prepare the training and evaluation data.
+* [Finetune Extractor](finetune_extractor): Train and evaluate the front end model. 
 * [Speaker Diarization](sd): Generate the speaker diarization results. 
 
 ## General steps
