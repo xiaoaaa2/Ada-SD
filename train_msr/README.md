@@ -3,7 +3,7 @@
 
 # Introduction
 
-This project is a classification network, with training data comprising mixed speech segments and clean speech segments. Mixed speech segments are created by cropping, concatenating, and smoothing segments from different individuals, while clean speech segments are directly cropped from the original speech data. To enhance the coherence between the two segments and simulate the alternation of speakers in real conversations, a fade-in and fade-out effect is applied at the crosspoints of the two speech segments during mixed speech processing. This effect ensures a smooth transition, making the overall processing more natural and enhancing experimental reliability. Subsequently, labels are generated for each speech segment based on the training data, typically indicating whether the segment is a mixed or clean segment.
+This project is a classification network, with training data comprising mixed speech segments and pure speech segments. Mixed speech segments are created by cropping, concatenating, and smoothing segments from different individuals, while pure speech segments are directly cropped from the original speech data. To enhance the coherence between the two segments and simulate the alternation of speakers in real conversations, a fade-in and fade-out effect is applied at the crosspoints of the two speech segments during mixed speech processing. Subsequently, labels are generated for each speech segment based on the training data, typically indicating whether the segment is a mixed or clean segment.
 The network training utilizes a ResNet model. After training the MSR network, its judgment on each segment will determine whether the re-segmentation is necessary.
 
 
