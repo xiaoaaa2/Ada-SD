@@ -11,7 +11,7 @@ The network training utilizes a ResNet model. After training the MSR network, it
 ## Preparing Data
 
 
-`data_preparation.py` can be used to generate mixed and clean data. `create_data.py` can be used to generate a list of data sets. There are many ways to generate a list of data sets.
+`data_preparation.py` can be used to generate mixed and pure data. `create_data.py` can be used to generate a list of data sets. There are many ways to generate a list of data sets.
 ```shell
 python data_preparation.py
 python create_data.py
