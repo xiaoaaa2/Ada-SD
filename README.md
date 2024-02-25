@@ -1,4 +1,4 @@
-# AISHELL-4
+# Variable Segment Length and Domain-Adapted Feature Optimization for Speaker Diarization
 
 
 This project is associated with the recently released AIHSHELL-4 dataset for speaker diarization in conference scenario. The project is divided into five parts, named ***training the MSR network***, ***fine-tuning speaker embedding extractor***, and ***speaker diarization***. The task evaluates the ability of speaker diarization. The goal of this project is to optimize speaker embeddings for speaker diarization by introducing the Mixed Segment Recognition network and employing a data augmentation strategy and a new loss function to fine-tune the pre-trained speaker embedding extractor.
