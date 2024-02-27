@@ -13,7 +13,6 @@ from itertools import chain
 
 from collections import defaultdict
 from datetime import date, datetime
-from model import Voxceleb12_sample_cssl2, AMI_sample_cssl
 from model import Cnceleb_sample_cssl, Cnceleb12_sample_cssl, Cnceleb_sample_cssl2
 from model import Resnet101SpeakerCSSL
 from pathlib import Path
@@ -29,7 +28,7 @@ from utils import AngProtoLoss4
 
 parser = argparse.ArgumentParser(description="Fine-tuning Wav2Vec 2")
 parser.add_argument('--base_path', type=str, 
-                    default='/home/zidonghua/zcy/VoiceprintRecognition-Pytorch/dataset/CN-Celeb_flac/data',
+                    default='/home/dataset/CN-Celeb_flac/data',
                     help='base location of the data')
 parser.add_argument('--batch_size', type=int, default=16,
                     help='batch size for training')
