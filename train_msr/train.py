@@ -6,7 +6,7 @@ from macls.utils.utils import add_arguments, print_arguments
 
 parser = argparse.ArgumentParser(description=__doc__)
 add_arg = functools.partial(add_arguments, argparser=parser)
-add_arg('configs',          str,    'configs/cam++.yml',        'Configuration file')
+add_arg('configs',          str,    'configs/resnet.yml',        'Configuration file')
 add_arg("local_rank",       int,    0,                          'The parameters required for multi-GPU training')
 add_arg("use_gpu",          bool,   True,                       'Whether to use GPU to evaluate the model')
 add_arg('save_model_path',  str,    'models/',                  'The path to save the mixing matrix')
