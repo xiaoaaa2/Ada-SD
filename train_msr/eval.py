@@ -7,7 +7,7 @@ from macls.utils.utils import add_arguments, print_arguments
 
 parser = argparse.ArgumentParser(description=__doc__)
 add_arg = functools.partial(add_arguments, argparser=parser)
-add_arg('configs',          str,   'configs/cam++.yml',         "Configuration file")
+add_arg('configs',          str,   'configs/resnet.yml',         "Configuration file")
 add_arg("use_gpu",          bool,  True,                        "Whether to use GPU to evaluate the model")
 add_arg('save_matrix_path', str,   'output/images/',            "The path to save the mixing matrix")
 add_arg('resume_model',     str,   'models/CAMPPlus_Fbank/best_model/',  "The path of the model")
