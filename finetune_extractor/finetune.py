@@ -26,16 +26,16 @@ from models.resnet101 import *
 from macls.data_utils.featurizer import AudioFeaturizer
 from utils import AngProtoLoss4
 
-parser = argparse.ArgumentParser(description="Fine-tuning Wav2Vec 2")
+parser = argparse.ArgumentParser(description="Fine-tuning ResNet101")
 parser.add_argument('--base_path', type=str, 
                     default='/home/dataset/CN-Celeb_flac/data',
                     help='base location of the data')
 parser.add_argument('--batch_size', type=int, default=16,
                     help='batch size for training')
 parser.add_argument('--model_type', type=str, 
-                    default='facebook/wav2vec2-base',
+                    default='model/Resnet',
                     help='pretrained model name or path to trained model')
-parser.add_argument('--lr', type=float, default=2e-5,
+parser.add_argument('--lr', type=float, default=1e-5,
                     help='learning rate')
 parser.add_argument('--pct_warmup_steps', type=float, default=0.1,
                     help='percentage of total steps for lr warmup')
@@ -58,9 +58,9 @@ parser.add_argument('--grad_acc_step', type=int, default=4,
 parser.add_argument('--save_path', type=str, default="saved_models/test.pt",
                     help='path to save model')
 parser.add_argument('--resume_training', type=int, default=0,
-                    help='resume current training or load huggingace model, 1=resume, 0=load')
+                    help='resume current training model, 1=resume, 0=load')
 parser.add_argument('--data_type', type=str, default="ami",
-                    help='To train with Vox1+2 or ami')
+                    help='To train with cn1 or cn1+2')
 parser.add_argument('--with_relu', type=int, default=0,
                     help='with or without relu for FC layer and embedding')
 parser.add_argument('--dropout_val', type=float, default=0,
